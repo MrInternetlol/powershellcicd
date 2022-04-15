@@ -21,10 +21,9 @@ defaults:
 jobs:
   # This workflow contains a single job called "build"
   clean:
-
-    steps:
-    
     runs-on: windows-latest
+    
+    steps:
     
       - run: $PSScriptRoot
 
