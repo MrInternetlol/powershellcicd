@@ -6,6 +6,6 @@ function Get-HelloWorld {
     
     Process
     {
-        Write-Host ("Hello " + $Text + "!")
+        Write-Helloworld -Text $Text
     }
 }
