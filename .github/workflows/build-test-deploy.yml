@@ -24,7 +24,7 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    
+      - uses: actions/checkout@v3
       - run: $PSScriptRoot
 
   build:
@@ -40,3 +40,4 @@ jobs:
 
       #Getting the Environment Variables
       - run: Get-ChildItem -Path "env:"
+      - run: Get-ChildItem -Path $PSScriptRoot -Recurse
