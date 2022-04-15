@@ -40,4 +40,4 @@ jobs:
 
       #Getting the Environment Variables
       - run: Get-ChildItem -Path "env:"
-      - run: Get-ChildItem -Path $PSScriptRoot -Recurse
+      - run: Get-ChildItem -Path D:\a\powershellcicd\powershellcicd -Recurse
