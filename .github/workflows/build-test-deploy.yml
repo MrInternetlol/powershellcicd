@@ -24,7 +24,6 @@ jobs:
     runs-on: windows-latest
     
     steps:
-      - uses: actions/checkout@v3
       - run: $PSScriptRoot
 
   build:
@@ -37,5 +36,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       #Getting the Environment Variables
+      - uses: actions/checkout@v3
       - run: Get-ChildItem -Path "env:"
       - run: Get-ChildItem -Path $GITHUB_WORKSPACE -Recurse
