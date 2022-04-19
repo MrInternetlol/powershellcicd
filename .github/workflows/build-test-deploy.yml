@@ -22,7 +22,7 @@ jobs:
   # This workflow contains a single job called "build"
   clean:
 
-    name: Starting Cleant Stage
+    name: Starting Clean Stage
     runs-on: windows-latest
     
     steps:
