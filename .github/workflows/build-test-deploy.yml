@@ -19,7 +19,7 @@ defaults:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
     install-dependencies:
-    name: Install dependencies
+    - name: Install dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,6 +35,7 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module PSScriptAnalyzer -ErrorAction Stop
+
     Lint_with_PSScriptAnalyzer:
         shell: pwsh
         run: |
