@@ -5,6 +5,6 @@ function Write-Helloworld {
     )
     
     process {
-        Write-Host "Hello $Text!"
+        echo"Hello $Text!"
     }
 }
