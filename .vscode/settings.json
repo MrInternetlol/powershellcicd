@@ -1,0 +1,7 @@
+{
+    "terminal.integrated.enablePersistentSessions": false,
+    "terminal.integrated.environmentChangesRelaunch": false,
+    "terminal.integrated.gpuAcceleration": "on",
+    "terminal.integrated.shellIntegration.showWelcome": false,
+    "terminal.integrated.tabs.enableAnimation": false
+}

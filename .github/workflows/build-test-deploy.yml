@@ -1,13 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build-Test-Deploy
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branche
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
   push:
     branch:
       - main
@@ -19,26 +18,45 @@ defaults:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  clean:
-
-    name: Starting Clean Stage
-    runs-on: windows-latest
-    
+    install-dependencies:
+    name: Install dependencies
+    runs-on: ubuntu-latest
     steps:
-      - run: $PSScriptRoot
-
-  build:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-
-    name: Starting Build Stage
-
-    needs: [clean]
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      #Getting the Environment Variables
       - uses: actions/checkout@v3
-      - run: Get-ChildItem -Path "env:"
-      - run: Get-ChildItem -Path $GITHUB_WORKSPACE -Recurse
+      - name: Setup PowerShell module cache
+        id: cacher
+        uses: actions/cache@v3
+        with:
+          path: "~/.local/share/powershell/Modules"
+          key: ${{ runner.os }}-PSScriptAnalyzer
+      - name: Install required PowerShell modules
+        if: steps.cacher.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -ErrorAction Stop
+    Lint_with_PSScriptAnalyzer:
+        shell: pwsh
+        run: |
+          Invoke-ScriptAnalyzer -Path *.ps1 -Recurse -Outvariable issues
+          $errors   = $issues.Where({$_.Severity -eq 'Error'})
+          $warnings = $issues.Where({$_.Severity -eq 'Warning'})
+          if ($errors) {
+              Write-Error "There were $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
+          } else {
+              Write-Output "There were $($errors.Count) errors and $($warnings.Count) warnings total."
+          }
+
+#    pester-test:
+#      name: Pester test
+#      runs-on: ubuntu-latest
+#      steps:
+#        - name: Check out repository code
+#          uses: actions/checkout@v3
+#        - name: Perform a Pester test from the command-line
+#          shell: pwsh
+#          run: Test-Path resultsfile.log | Should -Be $true
+#        - name: Perform a Pester test from the Tests.ps1 file
+#          shell: pwsh
+#          run: |
+#            Invoke-Pester Unit.Tests.ps1 -Passthru
