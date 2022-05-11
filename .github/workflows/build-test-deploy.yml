@@ -38,6 +38,9 @@ jobs:
 
   Lint_with_PSScriptAnalyzer:
     shell: pwsh
+    runs-on: ubuntu-latest
+    needs:
+      - install-dependencies
     steps:
       - name: Lint with PowerShell Script Analyzer
         run: |
