@@ -23,17 +23,6 @@ jobs:
     name: Install dependencies
     steps:
       - uses: actions/checkout@v3
-      - name: Setup PowerShell module cache
-        id: cacher
-        uses: actions/cache@v3
-        with:
-          path: "~/.local/share/powershell/Modules"
-          key: ${{ runner.os }}-PSScriptAnalyzer
-      - name: Install required PowerShell modules
-        if: steps.cacher.outputs.cache-hit != 'true'
-        run: |
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module PSScriptAnalyzer -ErrorAction Stop
       - name: Lint with PowerShell Script Analyzer
         run: |
           Write-Output $GITHUB_WORKSPACE
