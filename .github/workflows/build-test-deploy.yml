@@ -35,12 +35,6 @@ jobs:
         run: |
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module PSScriptAnalyzer -ErrorAction Stop
-
-  Lint_with_PSScriptAnalyzer:
-    runs-on: ubuntu-latest
-    needs:
-      - install-dependencies
-    steps:
       - name: Lint with PowerShell Script Analyzer
         run: |
           Write-Output "We are here $($GITHUB_WORKSPACE) we are waiting. I am Optimus Prime"
